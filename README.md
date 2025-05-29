@@ -1,6 +1,10 @@
 # 💸 Multi-Agent Finance Analyst
 
-A multi-agent system for analyzing financial queries using voice input and real-time market insights. Users can simply **speak a question**, and the system provides both **textual and audio responses** using financial APIs and intelligent agents powered by OpenAI.
+A robust multi-agent financial analytics system that leverages voice-driven queries, intelligent agent orchestration, and real-time market insights. Simply **ask a financial question by speaking**, and get detailed textual and audio responses using OpenAI's Agent API, Alpha Vantage, SEC EDGAR data, and more.
+
+Example query:
+
+> *"What’s our risk exposure in Asia tech stocks today, and highlight any earnings surprises?"*
 
 ---
 
@@ -10,51 +14,90 @@ A multi-agent system for analyzing financial queries using voice input and real-
 
 ---
 
-## 📌 Features
+## 📌 Key Features
 
-* 🎙️ **Voice Input** using Whisper STT
-* 🤖 **OpenAI Multi-Agent Orchestration**
-* 📊 **Market Data** via:
+* 🎙️ **Voice Input** (Speech-to-Text via Whisper)
+* 🤖 **Intelligent Multi-Agent System** (OpenAI Agent API orchestration)
+* 📊 **Real-time Financial Data** integration:
 
   * Alpha Vantage
   * Financial Modeling Prep
-  * SEC EDGAR (planned RAG-based ingestion)
+  * SEC EDGAR filings (planned RAG-based ingestion)
   * Tavily Web Search API
-* 🔁 **Agent Routing** using OpenAI Agent API
-* 🔈 **Text-to-Speech Output**
-* 🧠 **Vector Search / RAG** (coming soon)
+* 🔈 **Natural Voice Responses** (Text-to-Speech synthesis)
+* 🧠 **Retrieval-Augmented Generation (RAG)** (Coming soon)
 
 ---
 
-## 🗂️ Project Structure
+## 🧠 System Architecture
+
+```plaintext
+Voice Input 🎙️
+     ↓
+[Streamlit Frontend]
+     ↓
+Speech-to-Text (Whisper) 🔊 → Transcribed Text
+     ↓
+OpenAI Agent API (Multi-Agent Orchestration)
+     ↓
+RAG | Web Scraping | API Data Retrieval (Alpha Vantage, EDGAR, Tavily)
+     ↓
+Text-to-Speech API
+     ↓
+Voice + Text Output 🎧
+```
+
+---
+
+## 📂 Project Structure
 
 ```
 multiagent-fin/
 │
 ├── backend/
-│   ├── agent_service/        ← Agent orchestration with OpenAI API
-│   ├── stt_service/          ← Speech-to-text service (Whisper)
-│   ├── tts_service/          ← Text-to-speech service
-│   └── run_local.py          ← Run all services locally (no Docker)
+│   ├── agent_service/            ← Agent orchestration (OpenAI API)
+│   │   ├── agent_service_main.py
+│   │   └── requirements.txt
+│   │
+│   ├── stt_service/              ← Speech-to-Text (Whisper)
+│   │   ├── stt_service_main.py
+│   │   └── requirements.txt
+│   │
+│   ├── tts_service/              ← Text-to-Speech
+│   │   ├── tts_service_main.py
+│   │   └── requirements.txt
+│   │
+│   └── run_local.py              ← Start all backend services
 │
 ├── streamlit-app/
-│   └── app.py                ← Streamlit chatbot UI
+│   └── app.py                    ← Streamlit frontend
 │
-├── .env                      ← API keys and secrets
-└── docker-compose.yaml       ← (Not used due to space/time constraints)
+├── .env                          ← API keys and configurations
+└── docker-compose.yaml           ← Optional Dockerized setup
 ```
 
 ---
 
-## 🧪 Local Run (Recommended for Fast Setup)
+## 🚧 Quickstart Guide (Local Setup)
 
-1. **Install dependencies**:
+### Prerequisites
+
+* Python ≥ 3.10
+* API keys for:
+
+  * [OpenAI](https://platform.openai.com/api-keys)
+  * [Alpha Vantage](https://www.alphavantage.co/support/#api-key)
+  * [Financial Modeling Prep](https://site.financialmodelingprep.com/developer/docs/)
+  * [Tavily](https://www.tavily.com/api)
+
+### 1. Clone and Setup Environment
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/multiagent-finance-analyst.git
 cd multiagent-finance-analyst
+
 python -m venv venv
-source venv/bin/activate  # (on Windows: venv\Scripts\activate)
+source venv/bin/activate  # Windows: venv\Scripts\activate
 
 pip install -r backend/agent_service/requirements.txt
 pip install -r backend/stt_service/requirements.txt
@@ -62,28 +105,30 @@ pip install -r backend/tts_service/requirements.txt
 pip install streamlit
 ```
 
-2. **Set environment variables**: Create `.env` in the root directory:
+### 2. Configure API Keys (`.env` file)
+
+Create a `.env` file in the project root directory with your API keys:
 
 ```env
 OPENAI_API_KEY=your-openai-api-key
-ALPHAVANTAGE_API_KEY=your-alpha-vantage-key
-FINANCIAL_MODELING_PREP=your-fmp-key
-TAVILY_API_KEY=your-tavily-key
+ALPHAVANTAGE_API_KEY=your-alpha-vantage-api-key
+FINANCIAL_MODELING_PREP=your-fmp-api-key
+TAVILY_API_KEY=your-tavily-api-key
 ```
 
-3. **Run backend services and Streamlit app**:
+### 3. Run Backend Services & Frontend
 
 ```bash
 python backend/run_local.py
 ```
 
+Visit `http://localhost:8501` to access the Streamlit interface.
+
 ---
 
-## 🐳 Docker (Currently Not Used)
+## 🐳 Docker Deployment (Optional)
 
-Due to time and space constraints (\~20 GB disk cap), full Docker-based deployment was skipped. However, services are already containerized with individual `Dockerfile`s and a `docker-compose.yaml` is provided.
-
-To build in future:
+Due to space and resource constraints (\~20 GB disk cap), the Docker setup is currently not used. Dockerfiles and a compose configuration are provided for future scalability:
 
 ```bash
 docker compose up --build
@@ -91,27 +136,34 @@ docker compose up --build
 
 ---
 
-## 🛠️ Coming Soon
+## 🚀 Roadmap (Coming Soon)
 
-* ✅ RAG via OpenAI Vector Store or FAISS
-* ✅ Web scraping and structured document ingestion (SEC Filings)
-* ✅ Duplicate-check logic in file ingestion
-* ✅ Colab Pro deployment fallback for heavy services
+* ✅ **Retrieval-Augmented Generation (RAG)** via FAISS/OpenAI Vector Store
+* ✅ Enhanced Web Scraping and Document Ingestion from SEC filings
+* ✅ Duplicate-checking mechanisms for robust ingestion
+* ✅ Deployment flexibility (Docker, Colab Pro, etc.)
 
 ---
 
-## 🧠 Powered By
+## 🧰 Technologies & APIs Used
 
 * [OpenAI Agent API](https://github.com/openai/openai-agents-python)
 * [Alpha Vantage](https://www.alphavantage.co/)
 * [Financial Modeling Prep](https://site.financialmodelingprep.com/)
-* [Tavily](https://www.tavily.com/)
 * [SEC EDGAR](https://www.sec.gov/edgar/)
+* [Tavily Web Search](https://www.tavily.com/)
 * [Streamlit](https://streamlit.io/)
+* Whisper (OpenAI Speech-to-Text)
 
 ---
 
-## 🙋‍♂️ Author & Deployment Notes
+## 🔗 Deployment Notes
 
-* Deployment frontend on **Streamlit Community Cloud**
-* Backend APIs tested locally due to system and deadline constraints
+* Frontend deployed via **Streamlit Community Cloud**
+* Backend APIs tested and optimized locally, suitable for production deployment via Docker or cloud hosting.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
