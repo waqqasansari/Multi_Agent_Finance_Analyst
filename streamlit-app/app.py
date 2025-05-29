@@ -7,9 +7,9 @@ st.set_page_config(page_title="Finance Chatbot", layout="centered")
 st.markdown("<h1 style='text-align: center;'>💬 Finance Chatbot Assistant</h1>", unsafe_allow_html=True)
 
 # 🔁 Updated with your current ngrok URLs
-AGENT_API_URL = "https://c519-34-71-203-237.ngrok-free.app"
-STT_API_URL = "https://2a55-34-71-203-237.ngrok-free.app"
-TTS_API_URL = "https://da58-34-71-203-237.ngrok-free.app"
+AGENT_API_URL = "https://76f6-2405-201-604f-a04d-286b-f699-50b4-a5f5.ngrok-free.app"
+STT_API_URL = "https://dc37-2405-201-604f-a04d-286b-f699-50b4-a5f5.ngrok-free.app"
+TTS_API_URL = "https://7cc7-2405-201-604f-a04d-286b-f699-50b4-a5f5.ngrok-free.app"
 
 # Initialize session state
 if "messages" not in st.session_state:
