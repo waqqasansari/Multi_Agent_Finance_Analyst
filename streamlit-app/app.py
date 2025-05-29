@@ -6,6 +6,11 @@ from streamlit.components.v1 import html
 st.set_page_config(page_title="Finance Chatbot", layout="centered")
 st.markdown("<h1 style='text-align: center;'>💬 Finance Chatbot Assistant</h1>", unsafe_allow_html=True)
 
+# 🔁 Updated with your current ngrok URLs
+AGENT_API_URL = "https://c519-34-71-203-237.ngrok-free.app"
+STT_API_URL = "https://2a55-34-71-203-237.ngrok-free.app"
+TTS_API_URL = "https://da58-34-71-203-237.ngrok-free.app"
+
 # Initialize session state
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -38,7 +43,7 @@ if audio_bytes is not None:
     # Step 1: Transcribe audio
     with st.status("Transcribing audio...", expanded=False):
         stt_resp = requests.post(
-            "http://localhost:8001/transcribe",
+            f"{STT_API_URL}/transcribe",
             files={"audio": ("query.wav", audio_bytes.getvalue(), "audio/wav")},
             timeout=30
         )
@@ -61,7 +66,7 @@ if audio_bytes is not None:
     # Step 2: Analyze text
     with st.status("Analyzing query with agent...", expanded=False):
         orch_resp = requests.post(
-            "http://localhost:8000/query",
+            f"{AGENT_API_URL}/query",
             json={
                 "query": user_text,
                 "session_id": st.session_state.session_id,
@@ -81,7 +86,7 @@ if audio_bytes is not None:
     # Step 3: Generate voice
     with st.status("Generating voice response...", expanded=False):
         tts_resp = requests.post(
-            "http://localhost:8002/synthesize",
+            f"{TTS_API_URL}/synthesize",
             json={"text": answer_text},
             timeout=60
         )
