@@ -69,8 +69,7 @@ if audio_bytes is not None:
             f"{AGENT_API_URL}/query",
             json={
                 "query": user_text,
-                "session_id": st.session_state.session_id,
-                "previous_response_id": st.session_state.prev_response_id
+                "session_id": st.session_state.session_id
             },
             timeout=120
         )
